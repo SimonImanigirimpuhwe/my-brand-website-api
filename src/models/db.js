@@ -14,6 +14,7 @@ const {
 const url = config.db.database_url || `mongodb+srv://${username}:${password}@cluster0.zjvfn.mongodb.net/${name}`;
 
 export default mongoose
-.connect(url, options)
-.then(() => console.log('MongoDB connected......'))
-.catch((err) => { throw new Error(err)})
+    .connect(url, options)
+    // eslint-disable-next-line
+    .then(() => console.log('MongoDB connected......'))
+    .catch((err) => { throw new Error(err)})

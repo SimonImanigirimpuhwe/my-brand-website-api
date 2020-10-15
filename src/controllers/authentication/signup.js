@@ -17,16 +17,16 @@ const signupController = async(req, res) => {
 
     try {
         const newUser = await user.save();
-        const { name, email, _id, registeredAt } = newUser;
+        const { savedName, savedEmail, _id, registeredAt } = newUser;
         const token = generateToken(newUser);
 
         return res
-               .status(201)
-               .json({
-                   message: 'Account created successfully!',
-                   Body: { name, email, _id, registeredAt },
-                   token
-                })
+            .status(201)
+            .json({
+                message: 'Account created successfully!',
+                Body: { savedName, savedEmail, _id, registeredAt },
+                token
+            })
     } catch(err) {
         res.status(500).json({error: err.details[0].message})
     }
