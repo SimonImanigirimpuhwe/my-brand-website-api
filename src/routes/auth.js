@@ -1,13 +1,14 @@
 import { expression } from '@hapi/joi';
 import { Router } from 'express';
 import controllers from '../controllers/authentication';
-import { signupValidation } from '../middleware/userValidation';
+import { signupValidation, loginValidation } from '../middlewares/userValidation';
 
 
 const authRouter = new Router();
 
 authRouter
     .post('/signup', signupValidation, controllers.signupController)
+    .post('/login', loginValidation, controllers.loginController)
 
 
 export default authRouter;

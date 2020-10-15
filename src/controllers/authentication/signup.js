@@ -28,7 +28,7 @@ const signupController = async(req, res) => {
                    token
                 })
     } catch(err) {
-        res.status(500).json({error: err.details[0].message})
+        res.status(500).json({error: err.message})
     }
 };
 
