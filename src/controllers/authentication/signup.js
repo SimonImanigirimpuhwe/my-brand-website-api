@@ -6,7 +6,7 @@ const signupController = async(req, res) => {
     const { name, email, password } = req.body;
 
     const userEmail = await User.findOne({email});
-    if (userEmail) res.status(400).json({error: 'Email in use'});
+    if (userEmail) return res.status(400).json({error: 'Email in use'});
 
     const hashedPswd = await hashedPass(password);
     const user = new User({
@@ -17,18 +17,19 @@ const signupController = async(req, res) => {
 
     try {
         const newUser = await user.save();
-        const { savedName, savedEmail, _id, registeredAt } = newUser;
+        // eslint-disable-next-line
+        const { name, email, _id, registeredAt } = newUser;
         const token = generateToken(newUser);
 
         return res
             .status(201)
             .json({
                 message: 'Account created successfully!',
-                Body: { savedName, savedEmail, _id, registeredAt },
+                Body: { name, email, _id, registeredAt },
                 token
             })
     } catch(err) {
-        res.status(500).json({error: err.message})
+        return res.status(500).json({error: err.message})
     }
 };
 

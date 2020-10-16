@@ -1,10 +1,15 @@
 import express from 'express';
 import './models/db';
 import authRouter from './routes/auth';
+import messageRoute from './routes/message.route';
 
 const app = express();
 app.use(express.json())
+
+// routes configuration
 app.use('/users', authRouter)
+app.use('/message', messageRoute)
+
 
 app.use('/', (req, res) => {
     res.status(200).json({message: 'Welcome to Simon-tech website!'})

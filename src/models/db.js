@@ -8,10 +8,11 @@ const options = {
     useNewUrlParser: true
 }
 const {
-    db:{ username, password, name }
+    db:{ name }
 } = config;
 
-const url = config.db.database_url || `mongodb+srv://${username}:${password}@cluster0.zjvfn.mongodb.net/${name}`;
+const url = config.db.database_url || `mongodb://localhost:27017/${name}`
+
 
 export default mongoose
     .connect(url, options)

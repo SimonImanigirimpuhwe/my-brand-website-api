@@ -14,13 +14,16 @@ const loginController = async(req, res) => {
         if (!validPass) return res.status(400).json({error: 'Invalid Email or Password!'})
 
         const token = generateToken(loginUser);
+        
+        // eslint-disable-next-line
         const { name, email, _id } = loginUser;
-        return res.status(200)
-                  .json({
-                      message: 'Logged in successfully!',
-                      body:{ name, email, _id },
-                      token
-                    })
+        return res
+            .status(200)
+            .json({
+                message: 'Logged in successfully!',
+                body:{ name, email, _id },
+                token
+            })
     } catch(err) {
         return res.status(500).json({error: err.message})
     }
