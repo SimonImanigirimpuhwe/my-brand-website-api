@@ -26,7 +26,7 @@ export default {
     getMessages: async (req, res) => {
         try {
             const allMessages = await Message.find().sort({sentAt: -1});
-            if (allMessages.length === 0) return res.status(400).json({error: 'No message yet!'});
+            if (allMessages.length === 0) return res.status(404).json({error: 'No message yet!'});
 
             return res.status(200).json({allMessages});
         } catch(err) {

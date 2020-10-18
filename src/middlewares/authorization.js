@@ -16,7 +16,9 @@ export const auth = (req, res, next) => {
     } catch(err) {
         return res.status(403).json({error: 'Invalid Token'})
     }
-}
+};
+
+
 export const adminAuth = (req, res, next) => {
     const { isAdmin } = req.user;
     if (!isAdmin) return res.status(401).json({error: 'Access Denied, cannot perform the action unless you are an Admin!'});

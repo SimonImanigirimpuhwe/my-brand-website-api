@@ -4,12 +4,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const generateToken = (data) => {
-    const { name, id, isAdmin } = data;
+    const { name, _id, isAdmin } = data;
     const secretKey = process.env.SECRET_KEY;
 
     try {
         const token =  jwt.sign(
-            {name, id, isAdmin}, 
+            {name, _id, isAdmin}, 
             secretKey, 
             {
                 algorithm: 'HS256',

@@ -11,6 +11,7 @@ const messageSchema = new mongoose.Schema({
     },
     message: {
         type: String,
+        unique: true,
         required: true
     },
     sentAt: {
