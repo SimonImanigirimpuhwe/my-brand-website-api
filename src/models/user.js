@@ -13,6 +13,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    biograph: {
+        type: String
+    },
+    profileImag: {
+        type: String
+    },
     isAdmin: {
         type: Boolean,
         default: false
