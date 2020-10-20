@@ -17,7 +17,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    registedAt: {
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    registeredAt: {
         type: Date,
         default: new Date()
     }
