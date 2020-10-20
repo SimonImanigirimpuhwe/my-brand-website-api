@@ -36,7 +36,8 @@ export default {
 
             articleToEdit.set({
                 title: title || articleToEdit.title,
-                content: content || articleToEdit.content
+                content: content || articleToEdit.content,
+                articleImage: req.file.path
             });
 
             const editedArticle = await articleToEdit.save();

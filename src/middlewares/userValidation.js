@@ -66,5 +66,26 @@ export const loginValidation = (req, res, next) => {
     if (error) return res.status(400).json({error: error.details[0].message});
 
     return next();
+};
+
+export const updateProfileValidation = (req, res, next) => {
+    const schema = Joi.object({
+        name: Joi.string()
+            .messages({
+                'string.empty': 'Name should not be empty!'
+            }),
+        biograph: Joi.string()
+            .required()
+            .min(10)
+            .messages({
+                'string.empty': 'Biograph should not be empty!',
+                'string.min': 'Biograph should be at least 10 characters long!'
+            })
+    });
+
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(400).json({error: error.details[0].message});
+
+    return next();
 }
 

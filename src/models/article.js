@@ -1,3 +1,4 @@
+import { string } from '@hapi/joi';
 import mongoose from 'mongoose';
 
 
@@ -14,6 +15,9 @@ const articleSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true
+    },
+    articleImage: {
+        type: String
     },
     comments: {
         type: Number,
