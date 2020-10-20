@@ -3,6 +3,7 @@ import './models/db';
 import authRouter from './routes/auth';
 import messageRoute from './routes/message.route';
 import articleRoutes from './routes/articles.route';
+import commentRoutes from './routes/comments.route';
 
 const app = express();
 app.use(express.json())
@@ -11,6 +12,7 @@ app.use(express.json())
 app.use('/users', authRouter)
 app.use('/message', messageRoute)
 app.use('/articles', articleRoutes)
+app.use('/comments', commentRoutes)
 
 
 app.use('/', (req, res) => {
