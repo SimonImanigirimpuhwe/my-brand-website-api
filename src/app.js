@@ -6,6 +6,7 @@ import articleRoutes from './routes/articles.route';
 import usersRoute from './routes/users.route';
 import commentRoutes from './routes/comments.route';
 import profileRoutes from './routes/profile.route';
+import googleRoutes from './routes/googleOauth.route';
 
 
 const app = express();
@@ -14,6 +15,7 @@ app.use('/uploads', express.static('uploads'));
 
 // routes configuration
 app.use('/users', authRouter)
+app.use('/users/auth', googleRoutes )
 app.use('/message', messageRoute)
 app.use('/articles', articleRoutes)
 app.use('/users/info', usersRoute)

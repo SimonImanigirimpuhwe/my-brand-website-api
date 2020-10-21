@@ -5,7 +5,10 @@ const env = process.env.NODE_ENV || 'development';
 const development = {
     app: {
         port: 3000,
-        secretKey: process.env.SECRET_KEY
+        secretKey: process.env.SECRET_KEY,
+        clientID: process.env.GOOGLE_CLIENT_ID, 
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+        callbackURL: process.env.CALLBACK_URL
     },
     db: {
         username: process.env.DB_USERNAME_DEV,
@@ -19,7 +22,10 @@ const development = {
 const test= {
     app: {
         port: 3000,
-        secretKey: process.env.SECRET_KEY
+        secretKey: process.env.SECRET_KEY,
+        clientID: process.env.GOOGLE_CLIENT_ID, 
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+        callbackURL: process.env.CALLBACK_URL
     },
     db: {
         port: process.env.DB_PORT_TEST,
@@ -31,7 +37,10 @@ const test= {
 const staging = {
     app: {
         port: 3000,
-        secretKey: process.env.SECRET_KEY
+        secretKey: process.env.SECRET_KEY,
+        clientID: process.env.GOOGLE_CLIENT_ID, 
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+        callbackURL: process.env.GCALLBACK_URL
     },
     db: {
         database_url: process.env.DATABASE_URL
@@ -41,7 +50,10 @@ const staging = {
 const production = {
     app: {
         port: process.env.PORT,
-        secretKey: process.env.SECRET_KEY
+        secretKey: process.env.SECRET_KEY,
+        clientID: process.env.GOOGLE_CLIENT_ID, 
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+        callbackURL: process.env.CALLBACK_URL
     },
     db: {
         database_url: process.env.DATABASE_URL

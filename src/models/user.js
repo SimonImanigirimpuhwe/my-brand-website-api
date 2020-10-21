@@ -1,6 +1,13 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+    platform: {
+        type: String,
+        enum: ['google', 'email']
+    },
+    profileId: {
+        type: String
+    },
     name: {
         type: String,
         required: true
@@ -11,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required() {return  this.platform === 'email';}
     },
     biograph: {
         type: String
