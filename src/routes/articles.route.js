@@ -11,7 +11,7 @@ import {
 const articleRoutes = new Router();
 
 articleRoutes
-    .post('/', auth, newArticleValidation, articleController.addArticle)
+    .post('/', auth, upload.single('articleImage'), newArticleValidation, articleController.addArticle)
     .get('/admin', [auth, adminAuth], articleController.adminGetArticles)
     .get('/', auth, articleController.getArticles)
     .put('/:_id', auth, upload.single('articleImage'), editArticleValidation, articleController.editArticle)

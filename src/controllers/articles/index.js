@@ -14,7 +14,8 @@ export default {
             const newArticle = new Article({
                 title,
                 author: { _id, name},
-                content
+                content,
+                articleImage: req.file.path
             });
 
             const savedArticle = await newArticle.save();
