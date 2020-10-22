@@ -15,7 +15,7 @@ const messageValidation = (req, res, next) => {
                 'string.email': 'Email must be valid!'
             }),
         message: Joi.string()
-            .max(150)
+            .max(100)
             .required()
             .messages({
                 'string.empty': 'Message is required!',

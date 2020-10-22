@@ -19,13 +19,13 @@ export const signupValidation = (req, res, next) => {
             }),
         password: Joi.string()
             .min(6)
-            .max(50)
+            .max(150)
             .required()
             .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,}$/)
             .messages({
                 'string.empty': 'Password is required!',
                 'string.min': 'Password must be at least 6 characters!',
-                'string.max': 'Password must be less than 50 characters!',
+                'string.max': 'Password must be less than 150 characters!',
                 'string.pattern.base': 
                 'Password must contain at least one digit, lowercase and uppercase characters!'
             })
@@ -50,13 +50,13 @@ export const loginValidation = (req, res, next) => {
             }),
         password: Joi.string()
             .min(6)
-            .max(50)
+            .max(150)
             .required()
             .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,}$/)
             .messages({
                 'string.empty': 'Password is required!',
                 'string.min': 'Password must be at least 6 characters!',
-                'string.max': 'Password must be less than 50 characters!',
+                'string.max': 'Password must be less than 150 characters!',
                 'string.pattern.base': 
                 'Password must contain at least one digit, lowercase and uppercase characters!'
             })

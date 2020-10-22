@@ -14,7 +14,7 @@ app.use('/uploads', express.static('uploads'));
 
 // routes configuration
 app.use('/users', authRouter)
-app.use('/message', messageRoute)
+app.use('/messages', messageRoute)
 app.use('/articles', articleRoutes)
 app.use('/users/info', usersRoute)
 app.use('/comments', commentRoutes)
