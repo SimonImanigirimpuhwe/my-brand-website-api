@@ -7,6 +7,9 @@
     "verbose": true,
     "testEnvironment": "node"
   },
+  "engines": {
+    "node": "12.19.0"
+  },
   "scripts": {
     "test": "jest --watchAll --coverage --runInBand --detectOpenHandles",
     "build": ".\\node_modules\\.bin\\babel src --out-dir dist",
