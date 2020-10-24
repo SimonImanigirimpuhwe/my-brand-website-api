@@ -2,8 +2,6 @@ sudo: false
 
 language: node_js
 
-install: travis_wait 15 mvn install
-
 node_js:
   - 'stable'
 
