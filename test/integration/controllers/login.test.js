@@ -24,42 +24,63 @@ describe('login', () => {
 
     describe('/users/login', () => {
         it('should return 400 if email is invalid', async (done) => {
-            const user = {
-                email: 'invalidemail',
-                password: 'Test12345'
-            };
-            const res = await request(server).post('/users/login').send(user);
+            try {
+                const user = {
+                    email: 'invalidemail',
+                    password: 'Test12345'
+                };
+                const res = await request(server).post('/users/login').send(user);
+    
+                expect(res.status).toBe(400)
+                expect(res.body).toHaveProperty('error')
+    
+                done()
 
-            expect(res.status).toBe(400)
-            expect(res.body).toHaveProperty('error')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 400 if password is invalid', async (done) => {
-            const user = {
-                email: 'validemail@gmail.com',
-                password: 'wrongpassword'
-            };
+            try {
+                const user = {
+                    email: 'validemail@gmail.com',
+                    password: 'wrongpassword'
+                };
+    
+                const res = await request(server).post('/users/login').send(user);
+    
+                expect(res.status).toBe(400)
+                expect(res.body).toHaveProperty('error')
+    
+                done()
 
-            const res = await request(server).post('/users/login').send(user);
-
-            expect(res.status).toBe(400)
-            expect(res.body).toHaveProperty('error')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should allow login if valid credentials passed', async(done) => {
-            const user = {
-                email: 'validemail@gmail.com',
-                password: 'Test12345'   
-            };
+            try {
+                const user = {
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'   
+                };
+    
+                const res = await request(server).post('/users/login').send(user);
+    
+                expect(res.status).toBe(200)
+                expect(res.body).toHaveProperty('message')
+    
+                done()
 
-            const res = await request(server).post('/users/login').send(user);
-
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty('message')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 });

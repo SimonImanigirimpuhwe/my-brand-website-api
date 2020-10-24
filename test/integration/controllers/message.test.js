@@ -31,37 +31,57 @@ describe('Messages', () => {
         });
 
         it('should return 400 if message was already sent', async(done) => {
-            messageToSend = {
-                name: 'sendName',
-                email: 'sender@gmail.com',
-                message: 'message for testing'
-            };
-            const newMessage= await Message(messageToSend)
-            await newMessage.save()
-            const res = await exec()
-            
-            expect(res.status).toBe(400)
-            expect(res.body).toHaveProperty('error')
-            expect(res.body.error).toMatch(/sent before/)
+            try {
+                messageToSend = {
+                    name: 'sendName',
+                    email: 'sender@gmail.com',
+                    message: 'message for testing'
+                };
+                const newMessage= await Message(messageToSend)
+                await newMessage.save()
+                const res = await exec()
+                
+                expect(res.status).toBe(400)
+                expect(res.body).toHaveProperty('error')
+                expect(res.body.error).toMatch(/sent before/)
+    
+                done()
 
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return save message', async(done) => {
-            const res = await exec();
+            try {
+                const res = await exec();
+    
+                expect(res.status).toBe(201)
+                expect(res.body).toHaveProperty('message')
+                expect(res.body.message).toMatch(/Message Sent/)
+    
+                done()
 
-            expect(res.status).toBe(201)
-            expect(res.body).toHaveProperty('message')
-            expect(res.body.message).toMatch(/Message Sent/)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return saved message', async(done) => {
-            const res = await exec();
+            try {
+                const res = await exec();
+    
+                expect(res.status).toBe(201)
+                expect(res.body).toHaveProperty('savedMessage')
+    
+                done()
 
-            expect(res.status).toBe(201)
-            expect(res.body).toHaveProperty('savedMessage')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                done(err)
+            }
         })
     });
 
@@ -86,43 +106,70 @@ describe('Messages', () => {
 
         });
         it('should return 401 if no token provided', async(done) => {
-            token = '';
-            const res = await exec();
+            try {
+                token = '';
+                const res = await exec();
+    
+                expect(res.status).toBe(401)
+    
+                done()
 
-            expect(res.status).toBe(401)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
-            const res = await exec();
+            try {
+                token = '1234';
+                const res = await exec();
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 404 if no message in DB yet', async(done) => {
-            const res = await exec();
+            try {
+                const res = await exec();
+    
+                expect(res.status).toBe(404)
+    
+                done()
 
-            expect(res.status).toBe(404)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return all mesages in DB', async(done) => {
-            messageToSend = {
-                name: 'sendName',
-                email: 'sender@gmail.com',
-                message: 'message for testing'
-            };
-            const newMessage= await Message(messageToSend)
-            await newMessage.save()
-
-            const res = await exec()
-
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty('allMessages')
-
-            done()
+            try {
+                messageToSend = {
+                    name: 'sendName',
+                    email: 'sender@gmail.com',
+                    message: 'message for testing'
+                };
+                const newMessage= await Message(messageToSend)
+                await newMessage.save()
+    
+                const res = await exec()
+    
+                expect(res.status).toBe(200)
+                expect(res.body).toHaveProperty('allMessages')
+    
+                done()
+                
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 
@@ -146,52 +193,80 @@ describe('Messages', () => {
             token = generateToken(user);
         });
         it('should return 401 if no token provided', async(done) => {
-            token = '';
-            const res = await exec();
+            try {
+                token = '';
+                const res = await exec();
+    
+                expect(res.status).toBe(401)
+    
+                done()
 
-            expect(res.status).toBe(401)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
-            const res = await exec();
+            try {
+                token = '1234';
+                const res = await exec();
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 404 if no message with the given ID', async(done) => {
-            const id = mongoose.Types.ObjectId().toHexString();
-            const messageToSend = {
-                name: 'sendName',
-                email: 'sender@gmail.com',
-                message: 'message for testing'
-            };
-            const newMessage= await Message(messageToSend)
-            await newMessage.save()
+            try {
+                const id = mongoose.Types.ObjectId().toHexString();
+                const messageToSend = {
+                    name: 'sendName',
+                    email: 'sender@gmail.com',
+                    message: 'message for testing'
+                };
+                const newMessage= await Message(messageToSend)
+                await newMessage.save()
+    
+                const res = await exec(id);
+    
+                expect(res.status).toBe(404)
+    
+                done()
 
-            const res = await exec(id);
-
-            expect(res.status).toBe(404)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should delete a message with a given ID', async(done) => {
-            const messageToSend = {
-                name: 'sendName',
-                email: 'sender@gmail.com',
-                message: 'message for testing'
-            };
-            const newMessage = await Message(messageToSend)
-            const messageToDelete = await newMessage.save()
-            const id = messageToDelete._id;
-
-            const res = await exec(id);
-
-            expect(res.status).toBe(200)
-
-            done()
+            try {
+                const messageToSend = {
+                    name: 'sendName',
+                    email: 'sender@gmail.com',
+                    message: 'message for testing'
+                };
+                const newMessage = await Message(messageToSend)
+                const messageToDelete = await newMessage.save()
+                const id = messageToDelete._id;
+    
+                const res = await exec(id);
+    
+                expect(res.status).toBe(200)
+    
+                done()
+                
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done()
+            }
         });
     });
 });
