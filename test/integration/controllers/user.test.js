@@ -37,27 +37,48 @@ describe('Manage users', () => {
 
         });
         it('should return 401 if no token provided', async(done) => {
-            token = '';
-            const res = await exec();
+            try {
+                token = '';
+                const res = await exec();
+    
+                expect(res.status).toBe(401)
+    
+                done()
 
-            expect(res.status).toBe(401)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
-            const res = await exec();
+            try {
+                token = '1234';
+                const res = await exec();
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return all users in DB', async(done) => {
-            const res = await exec();
+            try {
+                const res = await exec();
+    
+                expect(res.status).toBe(200)
+    
+                done()
 
-            expect(res.status).toBe(200)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 
@@ -81,54 +102,82 @@ describe('Manage users', () => {
             token = generateToken(user);
         });
         it('should return 401 if no token provided', async(done) => {
-            token = '';
-            const res = await exec();
+            try {
+                token = '';
+                const res = await exec();
+    
+                expect(res.status).toBe(401)
+    
+                done()
 
-            expect(res.status).toBe(401)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
-            const res = await exec();
+            try {
+                token = '1234';
+                const res = await exec();
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 404 if no user with the given ID', async(done) => {
-            const id = mongoose.Types.ObjectId().toHexString();
-            const userToSave = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
-            const newUser= await User(userToSave)
-            await newUser.save()
+            try {
+                const id = mongoose.Types.ObjectId().toHexString();
+                const userToSave = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+                const newUser= await User(userToSave)
+                await newUser.save()
+    
+                const res = await exec(id);
+    
+                expect(res.status).toBe(404)
+    
+                done()
 
-            const res = await exec(id);
-
-            expect(res.status).toBe(404)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should delete a user with a given ID', async(done) => {
-            const userToDelete = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
-            const newUser = await User(userToDelete)
-            const userAccountToRemove = await newUser.save()
-            const id = userAccountToRemove._id;
+            try {
+                const userToDelete = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+                const newUser = await User(userToDelete)
+                const userAccountToRemove = await newUser.save()
+                const id = userAccountToRemove._id;
+    
+                const res = await exec(id);
+    
+                expect(res.status).toBe(200)
+    
+                done()
 
-            const res = await exec(id);
-
-            expect(res.status).toBe(200)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 
@@ -157,54 +206,82 @@ describe('Manage users', () => {
             token = generateToken(user);
         });
         it('should return 401 if no token provided', async(done) => {
-            token = '';
-            const res = await exec();
+            try {
+                token = '';
+                const res = await exec();
+    
+                expect(res.status).toBe(401)
+    
+                done()
 
-            expect(res.status).toBe(401)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
-            const res = await exec();
+            try {
+                token = '1234';
+                const res = await exec();
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 404 if no user with the given ID', async(done) => {
-            const id = mongoose.Types.ObjectId().toHexString();
-            const userToSave = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
-            const newUser= await User(userToSave)
-            await newUser.save()
+            try {
+                const id = mongoose.Types.ObjectId().toHexString();
+                const userToSave = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+                const newUser= await User(userToSave)
+                await newUser.save()
+    
+                const res = await exec(id);
+    
+                expect(res.status).toBe(404)
+    
+                done()
 
-            const res = await exec(id);
-
-            expect(res.status).toBe(404)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should update a user with a given ID', async(done) => {
-            const userToDelete = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
-            const newUser = await User(userToDelete)
-            const userAccountToRemove = await newUser.save()
-            const id = userAccountToRemove._id;
+            try {
+                const userToDelete = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+                const newUser = await User(userToDelete)
+                const userAccountToRemove = await newUser.save()
+                const id = userAccountToRemove._id;
+    
+                const res = await exec(id);
+    
+                expect(res.status).toBe(200)
+    
+                done()
 
-            const res = await exec(id);
-
-            expect(res.status).toBe(200)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     })
 })

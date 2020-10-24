@@ -42,31 +42,52 @@ describe('Article', () => {
                 .send(article)
         };    
         it('should return 401 if token is not provided', async(done) => {
-            token = '';
+            try {
 
-            const res = await exec();
-
-            expect(res.status).toBe(401)
-            expect(res.body).toHaveProperty('error')
-            expect(res.body.error).toMatch(/login to continue/)
-
-            done()
+                token = '';
+    
+                const res = await exec();
+    
+                expect(res.status).toBe(401)
+                expect(res.body).toHaveProperty('error')
+                expect(res.body.error).toMatch(/login to continue/)
+    
+                done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
+            try {
+                token = '1234';
+    
+                const res = await exec();
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            const res = await exec();
-
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should save the new article to database', async(done) => {
-            await exec();
+            try {
+                await exec();
+    
+                expect(article).not.toBeNull()
+    
+                done()
 
-            expect(article).not.toBeNull()
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 
@@ -83,226 +104,289 @@ describe('Article', () => {
             token = generateToken(user);
         });
         it('should return 401 if token is not provided', async(done) => {
-            token = '';
+            try {
+                token = '';
+    
+                const res = await request(server)
+                    .get('/articles')
+                    .set('auth-token', token)
+    
+                expect(res.status).toBe(401)
+                expect(res.body).toHaveProperty('error')
+                expect(res.body.error).toMatch(/login to continue/)
+    
+                done()
 
-            const res = await request(server)
-                .get('/articles')
-                .set('auth-token', token)
-
-            expect(res.status).toBe(401)
-            expect(res.body).toHaveProperty('error')
-            expect(res.body.error).toMatch(/login to continue/)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 403 if token is invalid', async(done) => {
-            token = '1234';
+            try {
+                token = '1234';
+    
+                const res = await request(server)
+                    .get('/articles')
+                    .set('auth-token', token)
+    
+                expect(res.status).toBe(403)
+    
+                done()
 
-            const res = await request(server)
-                .get('/articles')
-                .set('auth-token', token)
-
-            expect(res.status).toBe(403)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return 404 if no articles yet', async(done) => {
-            const res = await request(server)
-                .get('/articles')
-                .set('auth-token', token)
+            try {
+                const res = await request(server)
+                    .get('/articles')
+                    .set('auth-token', token)
+    
+                expect(res.status).toBe(404)
+                expect(res.body).toHaveProperty('error')
+                expect(res.body.error).toMatch(/No Articles/)
+    
+                done()
 
-            expect(res.status).toBe(404)
-            expect(res.body).toHaveProperty('error')
-            expect(res.body.error).toMatch(/No Articles/)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return all articles in Database', async(done) => {
-            const user = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345',
-                isAdmin: true
-            };
+            try {
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345',
+                    isAdmin: true
+                };
+        
+                token = generateToken(user);
+                
+                const { _id, name } = user;
+                const articleContent = new Array(35).join('a');
+                const savedArticle = {
+                    title: 'testing article routes',
+                    author: {_id, name },
+                    content: articleContent
+                };
+                const articleInDb = await Article(savedArticle)
+                
+                await articleInDb.save()
+                const res = await request(server)
+                    .get('/articles/admin')
+                    .set('auth-token', token)
     
-            token = generateToken(user);
-            
-            const { _id, name } = user;
-            const articleContent = new Array(35).join('a');
-            const savedArticle = {
-                title: 'testing article routes',
-                author: {_id, name },
-                content: articleContent
-            };
-            const articleInDb = await Article(savedArticle)
-            
-            await articleInDb.save()
-            const res = await request(server)
-                .get('/articles/admin')
-                .set('auth-token', token)
-
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty('savedArticles')
-
-            done()
+                expect(res.status).toBe(200)
+                expect(res.body).toHaveProperty('savedArticles')
+    
+                done()
+                
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return all articles in Database matching the req.user ', async(done) => {
-            const user = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
+            try {
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+        
+                token = generateToken(user);
+                
+                const { _id, name } = user;
+                const articleContent = new Array(35).join('a');
+                const savedArticle = {
+                    title: 'testing article routes',
+                    author: {_id, name },
+                    content: articleContent
+                };
+                const articleInDb = await Article(savedArticle)
+                
+                await articleInDb.save()
+                const res = await request(server)
+                    .get('/articles')
+                    .set('auth-token', token)
     
-            token = generateToken(user);
-            
-            const { _id, name } = user;
-            const articleContent = new Array(35).join('a');
-            const savedArticle = {
-                title: 'testing article routes',
-                author: {_id, name },
-                content: articleContent
-            };
-            const articleInDb = await Article(savedArticle)
-            
-            await articleInDb.save()
-            const res = await request(server)
-                .get('/articles')
-                .set('auth-token', token)
+                expect(res.status).toBe(200)
+                expect(res.body).toHaveProperty('savedArticles')
+    
+                done()
 
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty('savedArticles')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
     
     describe('GET /articles/:_id', () => {
         it('should return 404 if no article with the given ID', async(done) => {
-            const id = mongoose.Types.ObjectId().toHexString();
-            const user = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
+            try {
+                const id = mongoose.Types.ObjectId().toHexString();
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+        
+                token = generateToken(user);
+                
+                const { _id, name } = user;
+                const articleContent = new Array(35).join('a');
+                const savedArticle = {
+                    title: 'testing article routes',
+                    author: {_id, name },
+                    content: articleContent
+                };
+                const articleInDb = await Article(savedArticle)
+                
+                await articleInDb.save()
+                const res = await request(server)
+                    .get(`/articles/${id}`)
+                    .set('auth-token', token)
     
-            token = generateToken(user);
-            
-            const { _id, name } = user;
-            const articleContent = new Array(35).join('a');
-            const savedArticle = {
-                title: 'testing article routes',
-                author: {_id, name },
-                content: articleContent
-            };
-            const articleInDb = await Article(savedArticle)
-            
-            await articleInDb.save()
-            const res = await request(server)
-                .get(`/articles/${id}`)
-                .set('auth-token', token)
+                expect(res.status).toBe(404)
+    
+                done()
 
-            expect(res.status).toBe(404)
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should return article with the matching passed ID', async(done) => {
-            const user = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
+            try {
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+        
+                token = generateToken(user);
+                
+                const { _id, name } = user;
+                const articleContent = new Array(35).join('a');
+                const savedArticle = {
+                    title: 'testing article routes',
+                    author: {_id, name },
+                    content: articleContent
+                };
+                const articleInDb = await Article(savedArticle)
+                
+                const signleArticle = await articleInDb.save()
+                
+                const id = signleArticle._id;
+               
+                const res = await request(server)
+                    .get(`/articles/${id}`)
+                    .set('auth-token', token)
     
-            token = generateToken(user);
-            
-            const { _id, name } = user;
-            const articleContent = new Array(35).join('a');
-            const savedArticle = {
-                title: 'testing article routes',
-                author: {_id, name },
-                content: articleContent
-            };
-            const articleInDb = await Article(savedArticle)
-            
-            const signleArticle = await articleInDb.save()
-            
-            const id = signleArticle._id;
-           
-            const res = await request(server)
-                .get(`/articles/${id}`)
-                .set('auth-token', token)
+                expect(res.status).toBe(200)
+                expect(res.body).toHaveProperty('signleArticle')
+    
+                done()
 
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty('signleArticle')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 
     describe('DELETE /articles/:_id', () => {
         it('should return 404 if no article with the given ID', async(done) => {
-            const id = mongoose.Types.ObjectId().toHexString();
-            const user = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
+            try {
+                const id = mongoose.Types.ObjectId().toHexString();
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+        
+                token = generateToken(user);
+                
+                const { _id, name } = user;
+                const articleContent = new Array(35).join('a');
+                const savedArticle = {
+                    title: 'testing article routes',
+                    author: {_id, name },
+                    content: articleContent
+                };
+                const articleInDb = await Article(savedArticle)
+                
+                await articleInDb.save()
+                const res = await request(server)
+                    .delete(`/articles/${id}`)
+                    .set('auth-token', token)
     
-            token = generateToken(user);
-            
-            const { _id, name } = user;
-            const articleContent = new Array(35).join('a');
-            const savedArticle = {
-                title: 'testing article routes',
-                author: {_id, name },
-                content: articleContent
-            };
-            const articleInDb = await Article(savedArticle)
-            
-            await articleInDb.save()
-            const res = await request(server)
-                .delete(`/articles/${id}`)
-                .set('auth-token', token)
-
-            expect(res.status).toBe(404)
-
-            done()
+                expect(res.status).toBe(404)
+    
+                done()
+ 
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should delete article with the matching the passed ID', async(done) => {
-            const user = {
-                _id: mongoose.Types.ObjectId().toHexString(),
-                name: 'testname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
+            try {
+
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+        
+                token = generateToken(user);
+                
+                const { _id, name } = user;
+                const articleContent = new Array(35).join('a');
+                const savedArticle = {
+                    title: 'testing article routes',
+                    author: {_id, name },
+                    content: articleContent
+                };
+                const articleInDb = await Article(savedArticle)
+                
+                const signleArticle = await articleInDb.save()
+                
+                const id = signleArticle._id;
+               
+                const res = await request(server)
+                    .delete(`/articles/${id}`)
+                    .set('auth-token', token)
     
-            token = generateToken(user);
-            
-            const { _id, name } = user;
-            const articleContent = new Array(35).join('a');
-            const savedArticle = {
-                title: 'testing article routes',
-                author: {_id, name },
-                content: articleContent
-            };
-            const articleInDb = await Article(savedArticle)
-            
-            const signleArticle = await articleInDb.save()
-            
-            const id = signleArticle._id;
-           
-            const res = await request(server)
-                .delete(`/articles/${id}`)
-                .set('auth-token', token)
-
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty('message')
-
-            done()
+                expect(res.status).toBe(200)
+                expect(res.body).toHaveProperty('message')
+    
+                done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
     });
 })

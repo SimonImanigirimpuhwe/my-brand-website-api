@@ -16,33 +16,47 @@ describe('Signup', () => {
 
     describe('/users/signup', () => {
         it('should return 400 if user already exist', async(done) => {
-            const user = {
-                name: 'newname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
-            const newUser = await User(user)
-            await newUser.save()
-            const res = await request(server).post('/users/signup').send(user);
+            try {
+                const user = {
+                    name: 'newname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+                const newUser = await User(user)
+                await newUser.save()
+                const res = await request(server).post('/users/signup').send(user);
+    
+                expect(res.status).toBe(400)
+                expect(res.body).toHaveProperty('error')
+    
+                done()
 
-            expect(res.status).toBe(400)
-            expect(res.body).toHaveProperty('error')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         });
         it('should create new account', async (done) => {
-            const user = {
-                name: 'newname',
-                email: 'validemail@gmail.com',
-                password: 'Test12345'
-            };
+            try {
+                const user = {
+                    name: 'newname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345'
+                };
+    
+                const res = await request(server).post('/users/signup').send(user);
+    
+                expect(res.status).toBe(201)
+                expect(res.body).toHaveProperty('message')
+    
+                done()
 
-            const res = await request(server).post('/users/signup').send(user);
-
-            expect(res.status).toBe(201)
-            expect(res.body).toHaveProperty('message')
-
-            done()
+            } catch (err) {
+                // eslint-disable-next-line
+                console.log(err.message)
+                done(err)
+            }
         })
     });
 });
