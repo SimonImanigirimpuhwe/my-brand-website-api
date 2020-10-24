@@ -21,9 +21,6 @@ describe('login', () => {
         await request(server).post('/users/signup').send(user);
     });
     
-    // afterEach(() => {
-    //     server.close()
-    // });
 
     describe('/users/login', () => {
         it('should return 400 if email is invalid', async (done) => {
