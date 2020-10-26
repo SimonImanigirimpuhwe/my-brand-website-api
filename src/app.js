@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import './models/db';
 import authRouter from './routes/auth';
 import messageRoute from './routes/message.route';
@@ -11,6 +12,7 @@ import profileRoutes from './routes/profile.route';
 const app = express();
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
+app.use(cors())
 
 // routes configuration
 app.use('/users', authRouter)
