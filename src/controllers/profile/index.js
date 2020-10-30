@@ -60,8 +60,8 @@ export default {
 
     getProfile: async (req, res) => {
         try {
-            const { _id } = req.user;
-            const userProfile = await User.findOne({_id}, {'password': 0});
+            const { email } = req.user;
+            const userProfile = await User.findOne({email}, {'password': 0});
 
             return res.status(200).json({userProfile})
         } catch (err) {
