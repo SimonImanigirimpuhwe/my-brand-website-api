@@ -16,12 +16,12 @@ const loginController = async(req, res) => {
         const token = generateToken(loginUser);
         
         // eslint-disable-next-line
-        const { name, email, _id } = loginUser;
+        const { name, email, _id, isAdmin } = loginUser;
         return res
             .status(200)
             .json({
                 message: 'Logged in successfully!',
-                body:{ name, email, _id },
+                body:{ name, email, _id, isAdmin },
                 token
             })
     } catch(err) {

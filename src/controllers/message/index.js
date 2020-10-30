@@ -16,7 +16,7 @@ export default {
             });
             const savedMessage = await newMessage.save();
 
-            return res.status(201).json({message: 'Message Sent!', savedMessage});
+            return res.status(201).json({message: 'Message Sent, thanks for your message', savedMessage});
     
         } catch(err) {
             return res.status(500).json({error: err.message});
