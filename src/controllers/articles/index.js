@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 import Article from '../../models/article';
-
+import uploader from '../../utils/uploader';
 
 export default {
     addArticle: async (req, res) =>{
         try {
             const { title, content } = req.body;
             const { _id, name } = req.user;
+            const uploadedImg = await uploader(req.file.path);
 
             const articleToAdd = await Article.findOne({title});
             if (articleToAdd) return res.status(400).json({error: 'Article added before!'});
@@ -15,7 +16,7 @@ export default {
                 title,
                 author: { _id, name},
                 content,
-                articleImage: req.file.path
+                articleImage: uploadedImg.secure_url
             });
 
             const savedArticle = await newArticle.save();
@@ -34,11 +35,13 @@ export default {
 
             const articleToEdit = await Article.findById({_id});
             if (!articleToEdit) res.status(404).json({error: 'No article with given ID'});
+            
+            const uploadedImg = await uploader(req.file.path);
 
             articleToEdit.set({
                 title: title || articleToEdit.title,
                 content: content || articleToEdit.content,
-                articleImage: req.file.path
+                articleImage: uploadedImg.secure_url
             });
 
             const editedArticle = await articleToEdit.save();
@@ -68,6 +71,12 @@ export default {
     getArticles: async (req, res) => {
         try {
             const { _id } = req.user;
+            if (req.user.isAdmin === true) {
+                const savedArticles = await Article.find().sort({postedAt: -1});;
+                if (!savedArticles) return res.status(404).json({error: 'No Articles yet in DB!'});
+    
+                return res.status(200).json({savedArticles});
+            } 
             const savedArticles = await Article.find()
                 .where({'author._id': {$eq: _id}})
                 .sort({postedAt: -1});

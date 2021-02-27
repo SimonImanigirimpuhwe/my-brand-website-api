@@ -143,6 +143,15 @@ describe('Article', () => {
         });
         it('should return 404 if no articles yet', async(done) => {
             try {
+                const user = {
+                    _id: mongoose.Types.ObjectId().toHexString(),
+                    name: 'testname',
+                    email: 'validemail@gmail.com',
+                    password: 'Test12345',
+                    isAdmin: false
+                };
+        
+                token = generateToken(user);
                 const res = await request(server)
                     .get('/articles')
                     .set('auth-token', token)
@@ -150,9 +159,7 @@ describe('Article', () => {
                 expect(res.status).toBe(404)
                 expect(res.body).toHaveProperty('error')
                 expect(res.body.error).toMatch(/No Articles/)
-    
                 done()
-
             } catch (err) {
                 // eslint-disable-next-line
                 console.log(err.message)
